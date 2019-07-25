@@ -3,10 +3,9 @@ import _ from 'lodash'
 import { Button, Header, Icon, Image, Modal, Form } from 'semantic-ui-react'
 // import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup } from 'reactstrap';
 // import { Button } from 'semantic-ui-react'
-
-import "../App.css"
-import axios from 'axios';
+//import axios from 'axios';
 import API from '../utils/API';
+import "../App.css"
 import HabitsImg from "../assets/images/habits.svg"
 import ChecklistImg from "../assets/images/checklist.svg"
 
@@ -19,7 +18,7 @@ class Habits extends Component {
     newHabitName: '',
     newHabitDuration: '',
     newHabitDescription: '',
-    userHabits: [],
+    userHabits: []
   };
 
   // constructor(props) {
@@ -77,6 +76,7 @@ class Habits extends Component {
         .then(res => this.loadHabits())
         .catch(err => console.log(err));
     }
+    window.location.href="/habitslist"
   };
 
 
@@ -141,10 +141,10 @@ class Habits extends Component {
 
       <div className="text-center">
       <img src={ HabitsImg } alt="Habits Imange" className="img-fluid"></img>
-        
+
         <Modal trigger={<Button circular icon='plus' className="p-4 bg-danger mt-4 glowing" bg="danger"></Button>}>
         <Modal.Header>Add Habits</Modal.Header>
-        
+
         <Modal.Content image scrolling>
           <Image  src= { ChecklistImg } width= { 400 } height= { 1200 } wrapped />
 
@@ -159,7 +159,7 @@ class Habits extends Component {
               <Form.Field>
                 <label>Habit Title</label>
                 <input
-                
+
                 id="habits-title"
                 name="newHabitName"
                 value={this.state.newHabitName}
@@ -171,21 +171,21 @@ class Habits extends Component {
               <Form.Field>
                 <label>Duration</label>
                 <input
-                type="number"
+
                 id="habits-duration"
                 name="newHabitDuration"
                 value={this.state.newHabitDuration}
-                placeholder="66" 
+                placeholder="66"
                 onChange={this.handleInputChange}
                 />
               </Form.Field>
 
-              <Form.TextArea 
+              <Form.TextArea
                 label='Description'
                 id="habits-description"
-                name="newHabitDescription" 
+                name="newHabitDescription"
                 value={this.state.newHabitDescription}
-                placeholder='Description (optional)...' 
+                placeholder='Description (optional)...'
                 onChange={this.handleInputChange}
               />
             </Form>
@@ -201,7 +201,7 @@ class Habits extends Component {
             Add <Icon name='chevron right' />
           </Button>{' '}
         </Modal.Actions>
-        
+
         </Modal>
       </div>
 

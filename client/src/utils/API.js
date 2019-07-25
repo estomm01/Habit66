@@ -30,7 +30,7 @@ export default {
     return axios.delete("/api/habits/" + id);
   },
   // Saves a Habit to the database
-  saveHabit: function(bookData) {
-    return axios.post("/api/habits");
+  saveHabit: function(habitData) {
+    return axios.post("/api/habits", habitData);
   }
 };

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const habitSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  duration: String,
+  duration: { type: String, required: true }
 });
 
 const Habit = mongoose.model("Habit", habitSchema);

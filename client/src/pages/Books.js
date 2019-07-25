@@ -88,6 +88,7 @@ class Books extends Component {
               </FormBtn>
             </form>
           </Col>
+
           <Col size="md-6 sm-12">
             <Jumbotron>
               <h1>Books On My List</h1>
@@ -109,6 +110,7 @@ class Books extends Component {
               <h3>No Results to Display</h3>
             )}
           </Col>
+
         </Row>
       </Container>
     );

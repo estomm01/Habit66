@@ -1,23 +1,25 @@
 import React, { Component } from "react";
+import API from '../utils/API';
+import { Button, Card, Icon } from 'semantic-ui-react'
 // import styles from './HabitsList.module.css';
-import DeleteBtn from "../components/DeleteBtn";
-import Jumbotron from "../components/Jumbotron";
 // import {Animated} from "react-animated-css";
 // import HabitPage from '../HabitPage/HabitPage';
 // import SuccessInfo from '../SuccessInfo/SuccessInfo';
 //import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup } from 'reactstrap';
-import API from "../utils/API";
+
 import { Link } from "react-router-dom";
+// import Modal from './Modals/Modal.js';
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn } from "../components/Form";
-import Modal from './Modals/Modal.js';
+import DeleteBtn from "../components/DeleteBtn";
+import Jumbotron from "../components/Jumbotron";
 
 class HabitsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            allhabits: []
+            habits: []
         }
        this.idToken = JSON.parse(localStorage.getItem('okta-token-storage'));
        this.id = this.idToken.idToken.claims.sub
@@ -28,72 +30,86 @@ class HabitsList extends Component {
 
          // var data = API.findHabits(idToken)
         console.log(this.id);
-        this.fetchData(this.id);
+        // this.fetchData(this.id);
+        this.loadHabits();
     }
 
-    fetchData(id) {
-        fetch(`api/habits/${this.id}`)
-            .then(res => res.json())
-            .then((res) => {
+    loadHabits = () => {
+        API.getHabits()
+          .then(res =>
+            this.setState({ habits: res.data, name: "", description: "", duration: "" })
+          )
+          .catch(err => console.log(err));
+    };
 
-                this.setState({ allhabits: res });
-                console.log(res);
-                // window.location.href= "/habitslist"
-            })
+    deleteHabit = id => {
+        API.deleteHabit(id)
+          .then(res => this.loadHabits())
+          .catch(err => console.log(err));
+      };
 
-    }
+      handleInputChange = event => {
+        const { name, value } = event.target;
+        this.setState({
+          [name]: value
+        });
+      };
 
-    deleteHabit = habitId => {
-        API
-        .deleteHabit(habitId)
-        .then(() => {
-            console.log(habitId);
-            this.fetchData();
-        })
-        .catch(err => console.log(err))
+    // fetchData(id) {
+    //     fetch(`api/habits`)
+    //         .then(res => res.json())
+    //         .then((res) => {
 
-    }
+    //             this.setState({ allhabits: res });
+    //             console.log(res);
+    //             // window.location.href= "/habitslist"
+    //         })
+
+    // }
+
+    // deleteHabit = habitId => {
+    //     API
+    //     .deleteHabit(habitId)
+    //     .then(() => {
+    //         console.log(habitId);
+    //         this.fetchData();
+    //     })
+    //     .catch(err => console.log(err))
+
+    // }
 
     render() {
         return (
-            <div>
+            <>
+            <div id="main-div">
+            <h1 className="text-center text-light">My HabitsLit</h1>
 
-                <div>
-                    <h3>Ongoing habits</h3>
+            {this.state.habits.length ? (
+                // console.log(this.state.allhabits.length)
 
-                </div>
-                <div>
-                    {
-                        this.state.allhabits.length > 0 &&
+                <div id="main-div">
+                {this.state.habits.map(habit => (
 
-                        this.state.allhabits.map(e =>
-                            <div key={e._id}>
-                                <p>{e.description}</p>
-                                <button
-                                    onClick={()=>this.deleteHabit(e._id)}
-                                    
-                                >
-                                    Delete
-                                </button>
-                            </div>
+                        <Card key={habit._id} className="ml-auto mr-auto mt-5 mb-5">
+                        <Card.Content header={habit.name} />
+                        <Card.Content description={habit.description} />
+                        <Card.Content extra>
+                        <Icon name='user' />
+                            { habit.duration }
 
+                        </Card.Content>
+                        <Button circular negative icon='delete' onClick={() => this.deleteHabit(habit._id)} />
+                        </Card>
 
-
-
-                        )
-                    }
+                ))}
                 </div>
 
-                {/* <div >
-                  {
-                      this.state.allhabits.length > 0 &&
-                      this.state.allhabits.map(e =>
-                        <p key={e._id}>{e.description}</p>
-                    )
-                  }
-              </div> */}
+            ) : (
+              <h3>No Results to Display</h3>
+            )}
+
             </div>
-
+            </>
         )
     }
 }
