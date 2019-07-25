@@ -16,5 +16,21 @@ export default {
   // Saves a book to the database
   saveBook: function(bookData) {
     return axios.post("/api/books", bookData);
+  },
+   // Gets all Habits
+  getHabits: function() {
+    return axios.get("/api/habits");
+  },
+  // Gets the Habit with the given id
+  getHabit: function(id) {
+    return axios.get("/api/habits/" + id);
+  },
+  // Deletes the Habit with the given id
+  deleteHabit: function(id) {
+    return axios.delete("/api/habits/" + id);
+  },
+  // Saves a Habit to the database
+  saveHabit: function(bookData) {
+    return axios.post("/api/habits");
   }
 };

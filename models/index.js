@@ -1,4 +1,4 @@
 module.exports = {
   Book: require("./book"),
-  Habit: require("./Habit"),
+  Habit: require("./habit")
 };

@@ -6,6 +6,9 @@ body {
   padding-top: 10%;
 }
 
+.modal-bg {
+  background-color: #17223b !important;
+}
 .glowing {
   background-color: #004A7F;
   -webkit-border-radius: 10px;

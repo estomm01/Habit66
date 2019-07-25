@@ -6,8 +6,9 @@ import Books from "./pages/Books";
 import Detail from "./pages/Detail";
 import NoMatch from "./pages/NoMatch";
 import Home from './pages/Home';
-import Habits from './pages/Habits';
+// import Habits from './pages/Habits';
 import HabitsPage from "./pages/HabitsPage";
+import HabitsList from "./pages/HabitsList";
 import Nav from "./components/Nav";
 import Login from './components/auth/Login';
 
@@ -34,6 +35,7 @@ function App() {
           <Route component={NoMatch} /> */}
           <Route path="/" exact={true} component={Home} />
               <SecureRoute path="/habitsPage" exact={true} component={HabitsPage} />
+              <SecureRoute path="/habitslist" exact={true} component={HabitsList} />
               <SecureRoute path="/books" exact={true} component={Books} />
               <SecureRoute exact path="/books/:id" component={Detail} />
               {/* <Route component={NoMatch} /> */}

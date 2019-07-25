@@ -1,87 +1,134 @@
 import React, { Component } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup } from 'reactstrap';
-import { Button } from 'semantic-ui-react'
-import HabitsImg from "../assets/images/habits.svg"
+import _ from 'lodash'
+import { Button, Header, Icon, Image, Modal, Form } from 'semantic-ui-react'
+// import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup } from 'reactstrap';
+// import { Button } from 'semantic-ui-react'
+
 import "../App.css"
 import axios from 'axios';
-
 import API from '../utils/API';
+import HabitsImg from "../assets/images/habits.svg"
+import ChecklistImg from "../assets/images/checklist.svg"
+
 class Habits extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: false,
-      currentUserName: '',
-      currentUserEmail: '',
-      currentUserSub: '',
-      newHabitName: '',
-      newHabitDuration: '',
-      newHabitDescription: '',
-      userHabits: []
-    };
-    this.toggle = this.toggle.bind(this);
-  }
+  state = {
+    currentUserName: '',
+    currentUserEmail: '',
+    currentUserSub: '',
+    newHabitName: '',
+    newHabitDuration: '',
+    newHabitDescription: '',
+    userHabits: [],
+  };
 
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     modal: false,
+  //     currentUserName: '',
+  //     currentUserEmail: '',
+  //     currentUserSub: '',
+  //     newHabitName: '',
+  //     newHabitDuration: '',
+  //     newHabitDescription: '',
+  //     userHabits: []
+  //   };
+  //   this.toggle = this.toggle.bind(this);
+  // }
   componentDidMount() {
     const idToken = JSON.parse(localStorage.getItem('okta-token-storage'));
     this.setState({
       currentUserEmail: idToken.idToken.claims.email,
       currentUserName: idToken.idToken.claims.name,
       currentUserSub: idToken.idToken.claims.sub
-    }, () => {
-      axios.get(`http://localhost:3002/api/habits/${this.state.currentUserSub}`)
-        .then(
-          (res) => this.displayUserHabits(res)
-          // (res) => console.log(`HabitPage response: ${JSON.stringify(res, null, 4)}`)
-          // function(res){
-          //   console.log(`HabitPage response: ${JSON.stringify(res)}`);
-          //   this.setState({ userHabits: res.data })
-          //   console.log(this.state.userHabits)
-          // }
-        )
-
-
-        // .then((res) => console.log(`HabitPage response: ${JSON.stringify(res, null, 4)}`))
-    })
+    });
   }
 
-  displayUserHabits(res) {
-    this.setState({ userHabits: res.data })
-    console.log(`After setState: ${JSON.stringify(this.state.userHabits)}`)
-  }
+  loadHabits = () => {
+    API.getHabits()
+      .then(res =>
+        this.setState({ habits: res.data, name: "", description: "", duration: "" })
+      )
+      .catch(err => console.log(err));
+  };
 
-  formChange = e => {
-		this.setState({
-			[e.target.name]: e.target.value
-		});
-	};
+  deleteHabit = id => {
+    API.deleteHabit(id)
+      .then(res => this.loadHabits())
+      .catch(err => console.log(err));
+  };
 
-  toggle() {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
-  }
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
 
-  createHabit() {
-    const newHabit = {
-      name: this.state.newHabitName,
-      description: this.state.newHabitDescription,
-      duration: this.state.newHabitDuration
+  handleFormSubmit = event => {
+    event.preventDefault();
+    if (this.state.newHabitName && this.state.newHabitDuration) {
+      API.saveHabit({
+        name: this.state.newHabitName,
+        description: this.state.newHabitDescription,
+        duration: this.state.newHabitDuration
+      })
+        .then(res => this.loadHabits())
+        .catch(err => console.log(err));
     }
+  };
 
-    console.log(`New habit: ${newHabit} being sent to api...`)
-    window.location.href="/habitslist"
 
-    // console.log(`New habit: ${newHabit} being sent to api...`)
+  // componentDidMount() {
+  //   const idToken = JSON.parse(localStorage.getItem('okta-token-storage'));
+  //   this.setState({
+  //     currentUserEmail: idToken.idToken.claims.email,
+  //     currentUserName: idToken.idToken.claims.name,
+  //     currentUserSub: idToken.idToken.claims.sub
+  //   }, () => {
+  //     axios.get(`http://localhost:3001/api/habits/${this.state.currentUserSub}`)
+  //       .then(
+  //         (res) => this.displayUserHabits(res)
+  //       )
+  //   })
+  // }
 
-    API.saveHabit(newHabit, this.state.currentUserSub);
-  }
+  // displayUserHabits(res) {
+  //   this.setState({ userHabits: res.data })
+  //   console.log(`After setState: ${JSON.stringify(this.state.userHabits)}`)
+  // }
+
+  // formChange = e => {
+	// 	this.setState({
+	// 		[e.target.name]: e.target.value
+	// 	});
+	// };
+
+  // toggle() {
+  //   this.setState(prevState => ({
+  //     modal: !prevState.modal
+  //   }));
+  // }
+
+  // createHabit() {
+  //   const newHabit = {
+  //     name: this.state.newHabitName,
+  //     description: this.state.newHabitDescription,
+  //     duration: this.state.newHabitDuration
+  //   }
+
+  //   console.log(`New habit: ${newHabit} being sent to api...`)
+  //   window.location.href="/habitslist"
+
+
+  //   API.saveHabit(newHabit, this.state.currentUserSub);
+  // }
 
 
   render() {
     const { currentUserEmail, currentUserName } = this.state;
-    const closeBtn = <button className="close" onClick={this.toggle}>&times;</button>;
+    //const closeBtn = <button className="close" onClick={this.toggle}>&times;</button>;
 
     return (
       <>
@@ -93,6 +140,72 @@ class Habits extends Component {
       </div>
 
       <div className="text-center">
+      <img src={ HabitsImg } alt="Habits Imange" className="img-fluid"></img>
+        
+        <Modal trigger={<Button circular icon='plus' className="p-4 bg-danger mt-4 glowing" bg="danger"></Button>}>
+        <Modal.Header>Add Habits</Modal.Header>
+        
+        <Modal.Content image scrolling>
+          <Image  src= { ChecklistImg } width= { 400 } height= { 1200 } wrapped />
+
+          <Modal.Description>
+            <Header>What is Habits?</Header>
+            <p>“A habit (or won’t) is a routine or behavior that is repeated regularly and tends to occur unconsciously.”</p>
+            <p>The process of changing a habit into a new behavior is called habit formation.</p>
+            <p>t’s very hard to break old habits and form new habits since our behavior is engrained into our neural pathways.</p>
+            <p>But repetition is the key to changing a habit.</p>
+
+            <Form>
+              <Form.Field>
+                <label>Habit Title</label>
+                <input
+                
+                id="habits-title"
+                name="newHabitName"
+                value={this.state.newHabitName}
+                placeholder='Habit Title'
+                onChange={this.handleInputChange}
+                />
+              </Form.Field>
+
+              <Form.Field>
+                <label>Duration</label>
+                <input
+                type="number"
+                id="habits-duration"
+                name="newHabitDuration"
+                value={this.state.newHabitDuration}
+                placeholder="66" 
+                onChange={this.handleInputChange}
+                />
+              </Form.Field>
+
+              <Form.TextArea 
+                label='Description'
+                id="habits-description"
+                name="newHabitDescription" 
+                value={this.state.newHabitDescription}
+                placeholder='Description (optional)...' 
+                onChange={this.handleInputChange}
+              />
+            </Form>
+
+            {/* {_.times(8, i => (
+              <Image key={i} src='/images/wireframe/paragraph.png' style={{ paddingBottom: 5 }} />
+            ))} */}
+          </Modal.Description>
+        </Modal.Content>
+
+        <Modal.Actions className="p-5">
+          <Button circular positive onClick={this.handleFormSubmit}>
+            Add <Icon name='chevron right' />
+          </Button>{' '}
+        </Modal.Actions>
+        
+        </Modal>
+      </div>
+
+      {/* <div className="text-center">
         <Button circular icon='plus' className="p-4 bg-danger mt-4 glowing" bg="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <img src={ HabitsImg } alt="Habits Imange" className="img-fluid"></img>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
@@ -142,9 +255,9 @@ class Habits extends Component {
             <Button className="bg-danger text-light" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>
-      </div>
+      </div> */}
 
-      <div>
+      {/* <div>
         {this.state.userHabits.map((habit) => (
         <>
         <h2>{habit.name}</h2>
@@ -154,7 +267,7 @@ class Habits extends Component {
         </>
         ))}
 
-      </div>
+      </div> */}
     </div>
       </>
     );

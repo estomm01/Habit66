@@ -18,6 +18,7 @@ class Nav extends React.Component {
         <a id="home" className="menu-item" href="/"><Icon name='home' />Home</a>
         <a id="about" className="menu-item" href="/habitsPage"><Icon name='list layout' />Habits</a>
         <a id="contact" className="menu-item" href="/books">Books</a>
+        <a id="habitsList" className="menu-item" href="/habitsList">Habits List</a>
         <a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
       </Menu>
     );

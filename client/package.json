@@ -2,7 +2,7 @@
   "name": "mern",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3002/",
+  "proxy": "http://localhost:3001/",
   "dependencies": {
     "@okta/jwt-verifier": "^1.0.0",
     "@okta/okta-react": "^1.2.0",
