@@ -5,7 +5,8 @@ import { Button } from 'semantic-ui-react'
 import HomeImage from "../assets/images/checklist.svg";
 import LogoImage from "../assets/images/Habits66.png"
 import "../App.css"
-
+// import App from "../components/Charts.js";
+import Charts from "../components/Charts/index.js";
 
 export default withAuth(
   class Home extends Component {
@@ -48,24 +49,23 @@ export default withAuth(
           </Button>
         </div>
       ) : (
-        <div>
-          <h3 className="lead">
-            Welcome to Habits
+          <div>
+            <h3 className="lead">
+              Welcome to Habits
           </h3>
-          <Button circular  className="btn btn-light btn-lg" onClick={this.login}>
-            Login
+            <Button circular className="btn btn-light btn-lg" onClick={this.login}>
+              Login
           </Button>
-        </div>
-      );
+          </div>
+        );
 
       return (
         <div className="text-light text-center" id="main-div">
-          <img src={ LogoImage } width={350} height={50} className="img-fluid logo-animation" alt="Habits66"></img>
+          <img src={LogoImage} width={350} height={50} className="img-fluid logo-animation" alt="Habits66"></img>
           <h1 className="display-4">40% of our daily life is Habits</h1>
           {mainContent}
-          <div>
-          {/* <img src={ HomeImage } className="img-fluid" alt="welcome"></img> */}
-          </div>
+
+
 
         </div>
       );

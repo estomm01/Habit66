@@ -1,7 +1,6 @@
 {
   "name": "mern",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
@@ -31,7 +30,17 @@
     "react": "^16.8.6",
     "react-burger-menu": "^2.6.10",
     "react-dom": "^16.8.6",
+    "react-scroll-parallax": "^2.1.2",
     "reactstrap": "^8.0.1",
     "semantic-ui-react": "^0.87.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mhr85/project3_dev.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Mhr85/project3_dev/issues"
+  },
+  "homepage": "https://github.com/Mhr85/project3_dev#readme",
+  "description": ""
 }
