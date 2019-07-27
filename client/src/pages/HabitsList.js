@@ -36,9 +36,10 @@ class HabitsList extends Component {
         this.loadHabits();
     }
 
-    loadHabits = () => {
-      // console.log("here")
-        API.getHabits()
+
+    loadHabits = (id) => {
+        API.getHabits(id)
+
           .then(res =>
             this.setState({ habits: res.data, name: "", description: "", duration: "" })
           )
