@@ -6,14 +6,16 @@ import { Button, Card, Icon } from 'semantic-ui-react'
 // import HabitPage from '../HabitPage/HabitPage';
 // import SuccessInfo from '../SuccessInfo/SuccessInfo';
 //import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup } from 'reactstrap';
-
+import { ParallaxProvider } from 'react-scroll-parallax';
 import { Link } from "react-router-dom";
+import { ProgressBar } from 'react-bootstrap';
 // import Modal from './Modals/Modal.js';
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn } from "../components/Form";
 import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
+import Charts from "../components/Charts";
 
 class HabitsList extends Component {
     constructor(props) {
@@ -34,8 +36,10 @@ class HabitsList extends Component {
         this.loadHabits();
     }
 
+
     loadHabits = (id) => {
         API.getHabits(id)
+
           .then(res =>
             this.setState({ habits: res.data, name: "", description: "", duration: "" })
           )
@@ -96,7 +100,7 @@ class HabitsList extends Component {
                         <Card.Content extra>
                         <Icon name='user' />
                             { habit.duration }
-
+                        <ProgressBar animated now={habit.progress} />
                         </Card.Content>
                         <Button circular negative icon='delete' onClick={() => this.deleteHabit(habit._id)} />
                         </Card>
@@ -107,7 +111,11 @@ class HabitsList extends Component {
             ) : (
               <h3>No Results to Display</h3>
             )}
-
+            </div>
+            <div>
+               <Charts
+                habits = { this.state.habits }
+              />
             </div>
             </>
         )
