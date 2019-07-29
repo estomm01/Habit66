@@ -4,7 +4,7 @@ const db = require("../models");
 module.exports = {
   findAll: function(req, res) {
     db.Habit
-      .find(req.query)
+      .find(req.query) 
       .sort({ date: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
@@ -33,5 +33,11 @@ module.exports = {
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+  newDate: function(req, res) {
+    db.Habit
+      .findByIdAndUpdate(req.params.id, { lastCompletedDay: Date.now }, (result) => {
+        console.log(`${req.params.id}'s lastCompletedDay updated to ${Date.now}`);
+      });
   }
 };
