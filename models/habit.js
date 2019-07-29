@@ -7,6 +7,7 @@ const habitSchema = new Schema({
   duration: { type: String, required: true },
   lastCompletedDay: { type: Date, required: true, default: Date.now },
   progress: { type: Number, required: true, default: 0 }
+
 });
 
 const Habit = mongoose.model("Habit", habitSchema);
