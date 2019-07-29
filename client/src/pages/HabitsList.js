@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import API from '../utils/API';
 import { Button, Card, Icon } from 'semantic-ui-react'
+import { ProgressBar } from 'react-bootstrap';
+import Calendar from 'react-calendar';
 // import styles from './HabitsList.module.css';
 // import {Animated} from "react-animated-css";
 // import HabitPage from '../HabitPage/HabitPage';
@@ -46,7 +48,14 @@ class HabitsList extends Component {
         API.deleteHabit(id)
           .then(res => this.loadHabits())
           .catch(err => console.log(err));
-      };
+    };
+
+    completeHabit = id => {
+      console.log(`complete habit for ${id}`);
+      
+    }
+
+
 
       handleInputChange = event => {
         const { name, value } = event.target;
@@ -96,12 +105,13 @@ class HabitsList extends Component {
                         <Card.Content extra>
                         <Icon name='user' />
                             { habit.duration }
-
+                        <ProgressBar animated now={45} />
                         </Card.Content>
+                        <Button circular positive icon='check' onClick={() => this.completeHabit(habit._id)} />
                         <Button circular negative icon='delete' onClick={() => this.deleteHabit(habit._id)} />
                         </Card>
-
                 ))}
+                <Calendar />
                 </div>
 
             ) : (

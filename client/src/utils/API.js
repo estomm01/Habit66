@@ -32,5 +32,9 @@ export default {
   // Saves a Habit to the database
   saveHabit: function(habitData) {
     return axios.post("/api/habits", habitData);
+  },
+  // Sets lastCompletedDate to today
+  updateDay: function(id) {
+    return axios.put("/api/habits/" + id);
   }
 };
