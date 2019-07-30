@@ -8,6 +8,7 @@ import API from '../utils/API';
 import "../App.css"
 import HabitsImg from "../assets/images/habits.svg"
 import ChecklistImg from "../assets/images/checklist.svg"
+import Quote, { getRandomQuote } from 'inspirational-quotes';
 const transitions = ['tada']
 const options = transitions.map(name => ({ key: name, text: name, value: name }))
 
@@ -23,7 +24,8 @@ class Habits extends Component {
     userHabits: [],
     animation: transitions[0],
     duration: 1500,
-    visible: true
+    visible: true,
+    getRandomQuote: getRandomQuote()
   };
 
   // constructor(props) {
@@ -133,14 +135,16 @@ class Habits extends Component {
 
 
   render() {
-    const { currentUserEmail, currentUserName, animation, duration, visible } = this.state;
+    const { currentUserEmail, currentUserName, animation, duration, visible, getRandomQuote } = this.state;
     //const closeBtn = <button className="close" onClick={this.toggle}>&times;</button>;
 
     return (
       <>
       <div className="text-light" id="main-div">
       <div className="text-center">
+
         <h1>Welcome {currentUserName}</h1>
+         <h3>{getRandomQuote}</h3>
         {/* <p>Email: {currentUserEmail}</p>
         <p>Welcome to habit21, let build good habits.</p> */}
       </div>
@@ -203,10 +207,10 @@ class Habits extends Component {
         </Modal.Content>
 
         <Modal.Actions className="p-5">
-          <Button 
-            circular 
+          <Button
+            circular
             positive
-            disabled={!(this.state.newHabitName && this.state.newHabitDuration)} 
+            disabled={!(this.state.newHabitName && this.state.newHabitDuration)}
             onClick={this.handleFormSubmit}>
             Add <Icon name='chevron right' />
           </Button>{' '}

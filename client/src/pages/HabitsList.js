@@ -23,8 +23,6 @@ import DayPicker from 'react-day-picker';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 const transitions = ['shake']
-const options = transitions.map(name => ({ key: name, text: name, value: name }))
-
 
 class HabitsList extends Component {
     constructor(props) {
@@ -109,8 +107,8 @@ class HabitsList extends Component {
       show = () => this.setState({ dateOpen: true })
       handleConfirm = (day, { selected }, modifiers = {}) => {
           this.handleDayClick(day, { selected }, modifiers = {})
-          this.setState({ 
-            result: 'Completed',  
+          this.setState({
+            result: 'Completed',
             dateOpen: false,
             })
       }
@@ -184,6 +182,7 @@ class HabitsList extends Component {
     // }
 
     render() {
+
       const { open, closeOnEscape, closeOnDimmerClick, result, dateOpen, animation, duration, visible,  selectedDay, isDisabled, isEmpty } = this.state
         const today = Date.now();
         const modifiers = {
@@ -220,7 +219,7 @@ class HabitsList extends Component {
                         {/* <Card.Content header={habit._id} /> */}
                         {/* <Card.Content header={this.id} /> */}
                         <Card.Content description={habit.description} />
-                          
+
                         <Card.Content>
                         <p>
                             {isEmpty && 'Please type or pick a day'}
@@ -351,7 +350,7 @@ class HabitsList extends Component {
                         </Modal>
                       </Transition>
                       {/* <Button circular negative icon='delete' onClick={() => this.deleteHabit(habit._id)} /> */}
-       
+
 
 
 
