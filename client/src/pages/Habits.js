@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Calendar from 'react-calender';
 
 class Habits extends Component {
   state = {
@@ -22,6 +23,7 @@ class Habits extends Component {
         <h1>Welcome {currentUserName}</h1>
         <p>Email: {currentUserEmail}</p>
         <p>Welcome to habit21, let build good habits.</p>
+        <Calendar />
       </div>
     );
   }

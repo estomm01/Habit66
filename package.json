@@ -29,6 +29,7 @@
     "mongoose": "^5.3.16",
     "react": "^16.8.6",
     "react-burger-menu": "^2.6.10",
+    "react-calendar": "^2.19.0",
     "react-day-picker": "^7.3.0",
     "react-dom": "^16.8.6",
     "react-scroll-parallax": "^2.1.2",

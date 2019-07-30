@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import API from '../utils/API';
 import { Button, Card, Icon, Modal, Confirm, Transition, Form } from 'semantic-ui-react'
+// import Calendar from 'react-calendar';
 // import styles from './HabitsList.module.css';
 // import {Animated} from "react-animated-css";
 // import HabitPage from '../HabitPage/HabitPage';
@@ -79,7 +80,13 @@ class HabitsList extends Component {
           .then(res => this.loadHabits())
           .catch(err => console.log(err));
           window.location.href= "/habitslist"
-      };
+    };
+
+    completeHabit = id => {
+      console.log(`complete habit for ${id}`);
+    }
+
+
 
       handleInputChange = event => {
         const { name, value } = event.target;
@@ -207,9 +214,9 @@ class HabitsList extends Component {
 
                         <Card key={habit._id} className="ml-auto mr-auto mt-5 mb-5">
                         <Card.Content header={habit.name} />
-                        <Card.Content header={habit.oktaId} />
-                        <Card.Content header={habit._id} />
-                        <Card.Content header={this.id} />
+                        {/* <Card.Content header={habit.oktaId} /> */}
+                        {/* <Card.Content header={habit._id} /> */}
+                        {/* <Card.Content header={this.id} /> */}
                         <Card.Content description={habit.description} />
                           
                         <Card.Content>
@@ -288,7 +295,9 @@ class HabitsList extends Component {
                         <Card.Content extra>
                         <Icon name='user' />
                             { habit.duration }
+
                         <ProgressBar animated now={habit.progress} />
+
                         </Card.Content>
 
                         <Button
@@ -340,11 +349,16 @@ class HabitsList extends Component {
                         </Modal>
                       </Transition>
                       {/* <Button circular negative icon='delete' onClick={() => this.deleteHabit(habit._id)} /> */}
-                    </Card>
-                        // <Button circular negative icon='delete' onClick={() => this.deleteHabit(habit._id)} />
-                        // </Card>
+       
+
+
+
+                      <Button circular positive icon='check' onClick={() => this.completeHabit(habit._id)} />
+                      {/* <Button circular negative icon='delete' onClick={() => this.deleteHabit(habit._id)} /> */}
+                      </Card>
 
                 ))}
+                {/* <Calendar /> */}
                 </div>
 
             ) : (
