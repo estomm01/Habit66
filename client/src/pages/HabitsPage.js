@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash'
-import { Button, Header, Icon, Image, Modal, Form } from 'semantic-ui-react'
+import { Button, Header, Icon, Image, Modal, Form, Transition } from 'semantic-ui-react'
 // import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup } from 'reactstrap';
 // import { Button } from 'semantic-ui-react'
 //import axios from 'axios';
@@ -8,6 +8,8 @@ import API from '../utils/API';
 import "../App.css"
 import HabitsImg from "../assets/images/habits.svg"
 import ChecklistImg from "../assets/images/checklist.svg"
+const transitions = ['tada']
+const options = transitions.map(name => ({ key: name, text: name, value: name }))
 
 class Habits extends Component {
 
@@ -18,7 +20,10 @@ class Habits extends Component {
     newHabitName: '',
     newHabitDuration: '',
     newHabitDescription: '',
-    userHabits: []
+    userHabits: [],
+    animation: transitions[0],
+    duration: 1500,
+    visible: true
   };
 
   // constructor(props) {
@@ -127,7 +132,7 @@ class Habits extends Component {
 
 
   render() {
-    const { currentUserEmail, currentUserName } = this.state;
+    const { currentUserEmail, currentUserName, animation, duration, visible } = this.state;
     //const closeBtn = <button className="close" onClick={this.toggle}>&times;</button>;
 
     return (
@@ -141,7 +146,7 @@ class Habits extends Component {
 
       <div className="text-center">
       <img src={ HabitsImg } alt="Habits Imange" className="img-fluid"></img>
-
+      <Transition animation={animation} duration={duration} visible={visible}>
         <Modal trigger={<Button circular icon='plus' className="p-4 bg-danger mt-4 glowing" bg="danger"></Button>}>
         <Modal.Header>Add Habits</Modal.Header>
 
@@ -203,6 +208,7 @@ class Habits extends Component {
         </Modal.Actions>
 
         </Modal>
+        </Transition>
       </div>
 
       {/* <div className="text-center">

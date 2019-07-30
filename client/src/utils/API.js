@@ -21,6 +21,10 @@ export default {
   getHabits: function() {
     return axios.get("/api/habits");
   },
+  // Gets all Habits
+  getHabitsByOktaId: function(oktaId) {
+    return axios.get("/api/habits" + oktaId);
+  },
   // Gets the Habit with the given id
   getHabit: function(id) {
     return axios.get("/api/habits/" + id);
@@ -28,6 +32,10 @@ export default {
   // Deletes the Habit with the given id
   deleteHabit: function(id) {
     return axios.delete("/api/habits/" + id);
+  },
+  // Deletes the Habit with the given id
+  updateHabit: function(id) {
+    return axios.put("/api/habits/" + id);
   },
   // Saves a Habit to the database
   saveHabit: function(habitData) {

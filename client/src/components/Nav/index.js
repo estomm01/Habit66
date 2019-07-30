@@ -16,10 +16,10 @@ class Nav extends React.Component {
       <Menu>
         {/* <img src="../../assets/images/Habits661.svg"></img> */}
         <a id="home" className="menu-item" href="/"><Icon name='home' />Home</a>
-        <a id="about" className="menu-item" href="/habitsPage"><Icon name='list layout' />Habits</a>
-        <a id="contact" className="menu-item" href="/books">Books</a>
-        <a id="habitsList" className="menu-item" href="/habitsList">Habits List</a>
-        <a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
+        <a id="about" className="menu-item" href="/habitsPage"><Icon name='list layout' />Create Habits</a>
+        <a id="habitsList" className="menu-item" href="/habitsList"><Icon name='list ol' />Habits List</a>
+        {/* <a onClick={ this.showSettings } className="menu-item--small" href=""><Icon name='settings' />Settings</a>
+        <a id="contact" className="menu-item" href="/books"><Icon name='book' />Books</a> */}
       </Menu>
     );
   }
