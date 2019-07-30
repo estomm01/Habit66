@@ -76,6 +76,7 @@ class Habits extends Component {
       API.saveHabit({
         name: this.state.newHabitName,
         description: this.state.newHabitDescription,
+        oktaId: this.state.currentUserSub,
         duration: this.state.newHabitDuration
       })
         .then(res => this.loadHabits())
@@ -155,9 +156,9 @@ class Habits extends Component {
 
           <Modal.Description>
             <Header>What is Habits?</Header>
-            <p>“A habit (or won’t) is a routine or behavior that is repeated regularly and tends to occur unconsciously.”</p>
+            <p>“A habit is a routine or behavior that is repeated regularly and tends to occur unconsciously.”</p>
             <p>The process of changing a habit into a new behavior is called habit formation.</p>
-            <p>t’s very hard to break old habits and form new habits since our behavior is engrained into our neural pathways.</p>
+            <p>t’s very hard to break old habits and form new habits since our behavior is engrained into our neutral pathways.</p>
             <p>But repetition is the key to changing a habit.</p>
 
             <Form>
@@ -202,7 +203,11 @@ class Habits extends Component {
         </Modal.Content>
 
         <Modal.Actions className="p-5">
-          <Button circular positive onClick={this.handleFormSubmit}>
+          <Button 
+            circular 
+            positive
+            disabled={!(this.state.newHabitName && this.state.newHabitDuration)} 
+            onClick={this.handleFormSubmit}>
             Add <Icon name='chevron right' />
           </Button>{' '}
         </Modal.Actions>

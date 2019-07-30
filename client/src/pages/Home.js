@@ -62,7 +62,7 @@ export default withAuth(
       return (
         <div className="text-light text-center" id="main-div">
           <img src={LogoImage} width={350} height={50} className="img-fluid logo-animation" alt="Habits66"></img>
-          <h1 className="display-4">40% of our daily life is Habits</h1>
+          <h1 className="display-4">40% of our daily lives are Habits</h1>
           {mainContent}
 
 

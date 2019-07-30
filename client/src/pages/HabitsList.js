@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import API from '../utils/API';
 import { Button, Card, Icon, Modal, Confirm, Transition, Form } from 'semantic-ui-react'
+// Import react-circular-progressbar module and styles
 // import Calendar from 'react-calendar';
 // import styles from './HabitsList.module.css';
 // import {Animated} from "react-animated-css";
@@ -23,6 +24,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 const transitions = ['shake']
 const options = transitions.map(name => ({ key: name, text: name, value: name }))
+
 
 class HabitsList extends Component {
     constructor(props) {
@@ -54,15 +56,15 @@ class HabitsList extends Component {
     }
 
     componentDidMount() {
-        console.log("hello");
+        // console.log("hello");
 
          // var data = API.findHabits(idToken)
-        console.log(this.id);
-        console.log(this.state)
-        console.log(this.state.habits)
+        // console.log(this.id);
+        // console.log(this.state)
+        // console.log(this.state.habits)
         // this.fetchData(this.id);
         this.loadHabits();
-        console.log(this.state)
+        // console.log(this.state)
     }
 
 
@@ -204,7 +206,7 @@ class HabitsList extends Component {
         return (
             <>
             <div id="main-div">
-            <h1 className="text-center text-light">My HabitsLit</h1>
+            <h1 className="text-center text-light">My Habits List</h1>
 
             {this.state.habits.length ? (
                 // console.log(this.state.allhabits.length)
