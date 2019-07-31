@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import API from '../utils/API';
-import { Button, Card, Icon, Modal, Confirm, Transition, Form, CardContent } from 'semantic-ui-react'
+import { Button, Card, Icon, Modal, Confirm, Transition, Form, CardContent, List } from 'semantic-ui-react'
 // Import react-circular-progressbar module and styles
 // import Calendar from 'react-calendar';
 // import styles from './HabitsList.module.css';
@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { ProgressBar } from 'react-bootstrap';
 // import Modal from './Modals/Modal.js';
 import { Col, Row, Container } from "../components/Grid";
-import { List, ListItem } from "../components/List";
+// import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn } from "../components/Form";
 import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
@@ -218,13 +218,16 @@ class HabitsList extends Component {
             <>
             <div id="main-div">
             <h1 className="text-center text-light">My Habits List</h1>
-
+            <p className="text-center">
+              {/* Create HABITS,{' '} */}
+              <Link to="/habitsPage">Click here to create more HABITS</Link>
+            </p>
             {this.state.habits.length ? (
                 // console.log(this.state.allhabits.length)
 
-                <div id="main-div">
+                <div>
                 {this.state.habits.map(habit => (
-
+                        
                         <Card key={habit._id} className="ml-auto mr-auto mt-5 mb-5">
                         <Card.Content header={habit.name} />
                         {/* <Card.Content header={habit.oktaId} /> */}
@@ -370,6 +373,14 @@ class HabitsList extends Component {
                         })}
                         />;
                         </Card.Content>
+                        <CardContent>
+                        {/* {habit.dayStreak} */}
+                          <List key={habit._id}>
+                            
+                            {habit.dayStreak.map(date => <List.Item>{(date).slice(0, 10)}</List.Item>)}
+                            
+                          </List>
+                        </CardContent>
 
                         <Button
                         negative
@@ -431,6 +442,7 @@ class HabitsList extends Component {
                 ))}
                 {/* <Calendar /> */}
                 </div>
+                
 
             ) : (
               <h3>No Results to Display</h3>
