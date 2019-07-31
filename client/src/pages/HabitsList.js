@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import API from '../utils/API';
-import { Button, Card, Icon, Modal, Confirm, Transition, Form } from 'semantic-ui-react'
+import { Button, Card, Icon, Modal, Confirm, Transition, Form, CardContent } from 'semantic-ui-react'
 // Import react-circular-progressbar module and styles
 // import Calendar from 'react-calendar';
 // import styles from './HabitsList.module.css';
@@ -22,6 +22,8 @@ import deleteImg from '../assets/images/delete.svg'
 import DayPicker from 'react-day-picker';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
+import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 const transitions = ['shake']
 const options = transitions.map(name => ({ key: name, text: name, value: name }))
 
@@ -30,7 +32,7 @@ class HabitsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          open: false,
+            open: false,
             dateOpen: false,
             result: [],
             habits: [],
@@ -47,6 +49,7 @@ class HabitsList extends Component {
             isEmpty: true,
             isDisabled: false,
             newHabitDate: '',
+            dayStreak: '',
         }
        this.idToken = JSON.parse(localStorage.getItem('okta-token-storage'));
        this.id = this.idToken.idToken.claims.sub
@@ -67,9 +70,10 @@ class HabitsList extends Component {
         // console.log(this.state)
     }
 
+    // clearHabits = () => this.setState({ habits: res.data, name: "", description: "", duration: "", completedDays:"" });
 
-    loadHabits = (id) => {
-        API.getHabits(id)
+    loadHabits = () => {
+        API.getHabits(this.habitId)
 
           .then(res =>
             this.setState({ habits: res.data, name: "", description: "", duration: "", completedDays:"" })
@@ -109,8 +113,8 @@ class HabitsList extends Component {
       show = () => this.setState({ dateOpen: true })
       handleConfirm = (day, { selected }, modifiers = {}) => {
           this.handleDayClick(day, { selected }, modifiers = {})
-          this.setState({ 
-            result: 'Completed',  
+          this.setState({
+            result: 'Completed',
             dateOpen: false,
             })
       }
@@ -124,19 +128,22 @@ class HabitsList extends Component {
       handleChange = (e, { name, value }) => this.setState({ [name]: value })
       toggleVisibility = () => this.setState(prevState => ({ visible: !prevState.visible }))
 
-      handleDayChange = (selectedDay, modifiers, dayPickerInput, habitId, completedDays, id) => {
-        const input = dayPickerInput.getInput();
-        console.log(input.value)
-        console.log(selectedDay)
-        console.log(this.state.selectedDay)
-        console.log(`in handleCancel -- habitId ${id}`)
-        API.updateHabit(id,  {
+      handleDayChange = (habit) => {
+        console.log(habit)
+        // const input = dayPickerInput.getInput();
+        // console.log(input.value)
+        // console.log(selectedDay)
+        // console.log(this.state.selectedDay)
+        console.log(`in handleDayChange -- habitId ${habit._id}`)
+        API.updateHabit(habit._id,  {
           completedDays: this.state.selectedDay,
+          dayStreak: this.state.selectedDay
         })
           .then(res => this.loadHabits())
           .catch(err => console.log(err));
 
-        console.log(input.value)
+
+        // console.log(input.value)
         console.log(this.state.selectedDay)
         // this.setState({
         //   completedDays: input.value.trim()
@@ -151,13 +158,17 @@ class HabitsList extends Component {
 
       }
 
-      updateHabit = id => {
-        console.log(this.state.newHabitDate)
-        API.updateHabit(id, {
-          completedDays: this.state.newHabitDate,
+
+
+
+      updateHabit = (id) => {
+        console.log(`in handleDayChange -- habitId ${id}`)
+        API.updateHabit(id,  {
+          dayStreak: this.state.newHabitDate
         })
           .then(res => this.loadHabits())
           .catch(err => console.log(err));
+          window.location.href= "/habitslist"
       };
 
     // fetchData(id) {
@@ -184,7 +195,7 @@ class HabitsList extends Component {
     // }
 
     render() {
-      const { open, closeOnEscape, closeOnDimmerClick, result, dateOpen, animation, duration, visible,  selectedDay, isDisabled, isEmpty } = this.state
+      const { open, closeOnEscape, closeOnDimmerClick, result, dateOpen, animation, duration, visible,  selectedDay, isDisabled, isEmpty, } = this.state
         const today = Date.now();
         const modifiers = {
           thursdays: { daysOfWeek: [4] },
@@ -220,28 +231,28 @@ class HabitsList extends Component {
                         {/* <Card.Content header={habit._id} /> */}
                         {/* <Card.Content header={this.id} /> */}
                         <Card.Content description={habit.description} />
-                          
-                        <Card.Content>
-                        <p>
+
+
+                        {/* <p>
                             {isEmpty && 'Please type or pick a day'}
                             {!isEmpty && !selectedDay && 'This day is invalid'}
                             {selectedDay && isDisabled && 'This day is disabled'}
                             {selectedDay &&
                               !isDisabled &&
                               `You chose ${selectedDay.toLocaleDateString()}`}
-                        </p>
-                        <DayPickerInput
+                        </p> */}
+                        {/* <DayPickerInput
                           habitId={habit._id}
                           name='selectedDay'
-                          value={this.state.selectedDay}
-                          onDayChange={this.handleDayChange}
-                          // obDayClick={() =>
-                          //   this.updateHabit(habit._id)
-                          // }
+                          value={this.state.dayStreak}
+                          onDayChange={() => this.handleDayChange(habit)}
+                          obDayClick={() =>
+                            this.updateHabit(habit._id)
+                          }
                           onChange={this.handleInputChange}
-                          // onClick={() =>
-                          //   this.updateHabit(habit._id)
-                          // }
+                          onClick={() =>
+                            this.updateHabit(habit._id)
+                          }
                           dayPickerProps={{
                             selectedDays: this.state.selectedDay,
                             disabledDays: {
@@ -250,8 +261,8 @@ class HabitsList extends Component {
                           }}
                           modifiers={modifiers}
                           modifiersStyles={modifiersStyles}
-                        />
-                        </Card.Content>
+                        /> */}
+
                         {/* <DayPicker
                         key={habit._id}
                         selectedDays={this.state.selectedDay}
@@ -279,6 +290,31 @@ class HabitsList extends Component {
                           icon="checkmark"
                           content="Yes"
                         /> */}
+                        <Card.Content>
+                          <p>Select a Date</p>
+                          <Form>
+                            <Form.Field>
+                              <input
+                              type="date"
+                              id="habits-dates"
+                              name="newHabitDate"
+                              value={this.state.newHabitDate}
+                              onChange={this.handleInputChange}
+                              />
+                            </Form.Field>
+                          </Form>
+
+                            <Button
+                              onClick={() =>
+                                this.updateHabit(habit._id)
+                              }
+                              circular
+                              positive
+                              className="mt-3"
+                              icon="checkmark"
+                            />
+                        </Card.Content>
+
 
                         <Transition
                         animation={animation}
@@ -287,7 +323,7 @@ class HabitsList extends Component {
                         >
                         <Confirm
                           open={dateOpen}
-                          onCancel={() => this.handleCancel(habit._id)}
+                          onCancel={(id) => this.handleCancel(habit._id)}
                           onConfirm={this.handleConfirm}
                         //   onConfirm={() => this.handleConfirm(habit._id)}
                           header="Complete habit for today"
@@ -295,11 +331,44 @@ class HabitsList extends Component {
                         />
                       </Transition>
                         <Card.Content extra>
-                        <Icon name='user' />
-                            { habit.duration }
+                        <Icon name='certificate' />
+                        <p>Habit Duration</p>
+                        { habit.duration }
+                        <CardContent>
+                        <Icon name="chart line" />
+                        <p>Number of completed Days</p>
+                        </CardContent>
+                        { habit.dayStreak.length }
+                        {/* <ProgressBar animated now={habit.dayStreak.length} /> */}
+                        <CircularProgressbar
+                        value={habit.dayStreak.length}
+                        background
+                        styles={buildStyles({
+                          backgroundColor: "#ff6768",
+                          textColor: "red",
+                          pathColor: "#17223b",
+                          trailColor: "#bdc3c7",
+                          path: {
 
-                        <ProgressBar animated now={habit.progress} />
-
+                            // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                            strokeLinecap: 'butt',
+                            // Customize transition animation
+                            transition: 'stroke-dashoffset 0.5s ease 0s',
+                            // Rotate the path
+                            transform: 'rotate(0.25turn)',
+                            transformOrigin: 'center center',
+                          },
+                          trail: {
+                            // Trail color
+                            stroke: '#d6d6d6',
+                            // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                            strokeLinecap: 'butt',
+                            // Rotate the trail
+                            transform: 'rotate(0.25turn)',
+                            transformOrigin: 'center center',
+                          },
+                        })}
+                        />;
                         </Card.Content>
 
                         <Button
@@ -351,11 +420,11 @@ class HabitsList extends Component {
                         </Modal>
                       </Transition>
                       {/* <Button circular negative icon='delete' onClick={() => this.deleteHabit(habit._id)} /> */}
-       
 
 
 
-                      <Button circular positive icon='check' onClick={() => this.completeHabit(habit._id)} />
+
+                      {/* <Button circular positive icon='check' onClick={() => this.completeHabit(habit._id)} /> */}
                       {/* <Button circular negative icon='delete' onClick={() => this.deleteHabit(habit._id)} /> */}
                       </Card>
 
@@ -367,7 +436,7 @@ class HabitsList extends Component {
               <h3>No Results to Display</h3>
             )}
             </div>
-            <div>
+            <div className="m-5">
                <Charts
                 habits = { this.state.habits }
               />

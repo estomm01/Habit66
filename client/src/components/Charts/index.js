@@ -36,7 +36,7 @@ class Charts extends Component {
 				yValueFormatString: "#,###'%'",
         dataPoints:
           this.props.habits.map(habit => (
-           { label: habit.name, y: habit.progress }
+           { label: habit.name, y: habit.dayStreak.length }
           ))
 
        }]

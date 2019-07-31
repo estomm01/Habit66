@@ -6,8 +6,9 @@ const habitSchema = new Schema({
   description: { type: String, required: true },
   duration: { type: String, required: true },
   oktaId: String,
-  lastCompletedDay: { type: Date, required: true, default: Date.now },
-  progress: { type: Number, required: true, default: 0 }
+  // lastCompletedDay: { type: Date, required: true, default: Date.now },
+  progress: { type: Number, required: true, default: 0 },
+  dayStreak: [{ type: Date }]
 
 });
 
