@@ -25,8 +25,6 @@ import 'react-day-picker/lib/style.css';
 import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 const transitions = ['shake']
-const options = transitions.map(name => ({ key: name, text: name, value: name }))
-
 
 class HabitsList extends Component {
     constructor(props) {
@@ -227,7 +225,7 @@ class HabitsList extends Component {
 
                 <div>
                 {this.state.habits.map(habit => (
-                        
+
                         <Card key={habit._id} className="ml-auto mr-auto mt-5 mb-5">
                         <Card.Content header={habit.name} />
                         {/* <Card.Content header={habit.oktaId} /> */}
@@ -376,9 +374,9 @@ class HabitsList extends Component {
                         <CardContent>
                         {/* {habit.dayStreak} */}
                           <List key={habit._id}>
-                            
+
                             {habit.dayStreak.map(date => <List.Item>{(date).slice(0, 10)}</List.Item>)}
-                            
+
                           </List>
                         </CardContent>
 
@@ -442,7 +440,7 @@ class HabitsList extends Component {
                 ))}
                 {/* <Calendar /> */}
                 </div>
-                
+
 
             ) : (
               <h3>No Results to Display</h3>
