@@ -9,6 +9,7 @@ import Home from './pages/Home';
 // import Habits from './pages/Habits';
 import HabitsPage from "./pages/HabitsPage";
 import HabitsList from "./pages/HabitsList";
+import CalendarList from "./pages/calendareList";
 import Nav from "./components/Nav";
 import Login from './components/auth/Login';
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/" exact={true} component={Home} />
               <SecureRoute path="/habitsPage" exact={true} component={HabitsPage} />
               <SecureRoute path="/habitslist" exact={true} component={HabitsList} />
+              <SecureRoute path="/calendareList" exact={true} component={CalendarList} />
               <SecureRoute path="/books" exact={true} component={Books} />
               <SecureRoute exact path="/books/:id" component={Detail} />
               {/* <Route component={NoMatch} /> */}
