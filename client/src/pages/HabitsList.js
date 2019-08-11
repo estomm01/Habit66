@@ -340,6 +340,8 @@ class HabitsList extends Component {
                         </CardContent>
                         { habit.dayStreak.length }
                         {/* <ProgressBar animated now={habit.dayStreak.length} /> */}
+
+
                         <CircularProgressbar
                         value={habit.dayStreak.length}
                         background
