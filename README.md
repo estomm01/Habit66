@@ -12,4 +12,4 @@ Interesting facts about Habits
 
 View a live example here: https://habits-sixtysix.herokuapp.com
 
-![Habits66](client/src/assets/git-readme.png)
+![Habits66](client/src/assets/images/git-readme.png)
